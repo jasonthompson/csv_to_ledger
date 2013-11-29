@@ -8,9 +8,9 @@ Gem::Specification.new do |spec|
   spec.version       = CsvToLedger::VERSION
   spec.authors       = ["Jason Thompson"]
   spec.email         = ["jason@jthompson.ca"]
-  spec.description   = %q{TODO: Write a gem description}
-  spec.summary       = %q{TODO: Write a gem summary}
-  spec.homepage      = ""
+  spec.description   = %q{Converts csv bank statement to ledger format.}
+  spec.summary       = %q{Converts csv bank statement to ledger format.}
+  spec.homepage      = "http://github.com/jasonthompson/csv_to_ledger"
   spec.license       = "MIT"
 
   spec.files         = `git ls-files`.split($/)
@@ -18,6 +18,9 @@ Gem::Specification.new do |spec|
   spec.test_files    = spec.files.grep(%r{^(test|spec|features)/})
   spec.require_paths = ["lib"]
 
+  spec.add_runtime_dependency "highline"
+
   spec.add_development_dependency "bundler", "~> 1.3"
   spec.add_development_dependency "rake"
+  spec.add_development_dependency "pry"
 end
