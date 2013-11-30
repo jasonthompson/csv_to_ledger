@@ -4,4 +4,3 @@ require "csv_to_ledger/transaction"
 
 module CsvToLedger
 end
-c

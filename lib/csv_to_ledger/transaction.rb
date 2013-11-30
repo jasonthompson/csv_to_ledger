@@ -8,7 +8,7 @@ module CSVToLedger
 
     def initialize(args={})
       @date = filter_date(args[:date])
-      @description = filter_description(args[:description])
+      @description = args[:description]
       @funds_out = args[:funds_out]
       @funds_in = args[:funds_in]
       @account = args[:account]
