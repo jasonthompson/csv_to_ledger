@@ -26,7 +26,7 @@ module CSVToLedger
 
     account = choose do |menu|
       menu.prompt = "Please choose an account for this vendor"
-      matcher = VendorAccountMatcher.new
+      matcher = VendorAccountMatcher.new("test-data/tags.json")
       matcher.accounts.each do |a|
         menu.choice a do matcher.add_vendor_account(vendor, a) end
       end
@@ -37,7 +37,7 @@ module CSVToLedger
   CSV.foreach('test-data/PCF.csv') do |row|
     date, description, funds_out, funds_in = row
     description = filter_description(description)
-    matcher = VendorAccountMatcher.new
+    matcher = VendorAccountMatcher.new("test-data/tags.json")
     account = matcher.match(description) || prompt_for_new_account(description)
     
     output << Transaction.new(date: date,
