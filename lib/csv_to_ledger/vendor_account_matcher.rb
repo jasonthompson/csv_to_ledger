@@ -1,13 +1,14 @@
-require 'json'
+require 'sequel'
 
 module CSVToLedger
-  class VendorAccountMatcher
-    attr_accessor :matchers_io, :matchers, :accounts
+  DB = Sequel.connect('sqlite://db/production')
 
-    def initialize(matchers_io)
-      @matchers_io = matchers_io
+  class VendorAccountMatcher
+     attr_accessor :matchers_file, :accounts, :matchers
+
+    def initialize
       @matchers = fetch_matchers
-      @accounts = @matchers.values.uniq
+      @accounts = @matchers['select account from items']
     end
 
     def match(vendor)
@@ -15,8 +16,11 @@ module CSVToLedger
     end
 
     def add_vendor_account(vendor, account)
-      matchers[vendor] = account
-      save_matchers
+      save_matcher(vendor, account)
+    end
+
+    def accounts
+      @accounts = matchers.values.uniq
     end
 
     private
@@ -26,12 +30,11 @@ module CSVToLedger
     end
 
     def fetch_matchers
-      matchers || open(matchers_io) do |f| JSON.load(f) end
+      DB[:matchers]
     end
 
-    def save_matchers
-      open(matchers_io, "w") do |f| JSON.dump(matchers, f) end
+    def save_matcher(vendor, account)
+      matchers.insert(vendor: vendor, account: account)
     end
-
   end
 end

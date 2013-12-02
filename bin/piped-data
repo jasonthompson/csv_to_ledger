@@ -1,0 +1,25 @@
+#!/usr/bin/env ruby
+
+require 'highline/import'
+
+input = ARGF
+
+puts input.read.length
+#hl = IO.sysopen('/dev/tty', "rw")
+
+# def self.ask_for_input
+#   account = ask("Please enter new account name: ", String)
+#   account
+# end
+
+# def self.main_menu
+#   account = ""
+#   choose do |menu|
+#     menu.choice :add do |c| 
+#       account = ask_for_input
+#     end
+#     account = menu.choices("Account 1", "Account 2", "Account 3")
+#   end
+#   account
+# end
+# main_menu

@@ -1,29 +1,43 @@
 module CSVToLedger
   class Transaction
-    attr_reader :date
-    attr_reader :description
-    attr_reader :funds_out
-    attr_reader :funds_in
-    attr_reader :account
+    attr_accessor :date
+    attr_accessor :description
+    attr_accessor :funds_out
+    attr_accessor :funds_in
+    attr_accessor :account
+    attr_reader :total_in_or_out
 
-    def initialize(args={})
-      @date = filter_date(args[:date])
-      @description = args[:description]
-      @funds_out = args[:funds_out]
-      @funds_in = args[:funds_in]
-      @account = args[:account]
+    def initialize(&block)
+      yield self if block_given?
     end
 
     def expense?
       @funds_out.to_i > 0
     end
 
-    private
-
-    def filter_date(date_string)
-      m,d,y = date_string.split('/')
-      return "#{y}/#{m}/#{d}"
+    def total_in_or_out
+      expense? ? funds_out : funds_in
     end
 
+    def summary
+      "'#{description}: $#{total_in_or_out}'"
+    end
+
+    def to_s
+      "#{date} #{description}\n" +
+      if expense?
+        "\t Expense:#{account}: \t #{funds_out}\n"+
+          "\t Liabilities:Chequing"
+      else
+        "\t Asset:Chequing: \t #{funds_in}\n"+
+          "\t Income:PayCheque: "
+      end
+    end
+
+    def to_str
+      to_s
+    end
+
+    private
   end
  end

@@ -44,13 +44,13 @@ module CSVToLedger
       choose do |menu|
         menu.prompt = "Please choose an account for #{transaction.summary}: "
 
-        menu.choice :add do |c| 
-          new_acct = prompt_for_new_account(transaction) 
+        menu.choice :add do |c|
+          new_acct = prompt_for_new_account(transaction)
           account << vendor_account_matcher.add_vendor_account(transaction.description, account)
         end
 
-        vendor_account_matcher.accounts.each do |a| 
-          menu.choice a do |c| 
+        vendor_account_matcher.accounts.each do |a|
+          menu.choice a do |c|
             account << vendor_account_matcher.add_vendor_account(transaction.description, c)
           end
         end
@@ -61,7 +61,7 @@ module CSVToLedger
     def run
       output = ""
 
-      CSV.foreach(input_file, csv_settings) do |row| 
+      CSV.foreach(input_file, csv_settings) do |row|
         output << Transaction.new do |t|
           t.date = row[:date]
           t.description = filter_description(row[:transaction_details])
