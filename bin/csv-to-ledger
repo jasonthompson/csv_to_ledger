@@ -16,7 +16,7 @@ module CSVToLedger
       @csv_settings = {:headers => true,
                       :col_sep => ',',
                       :header_converters => [lambda {|h| h.strip}, :symbol]}
-      @vendor_account_matcher = VendorAccountMatcher.instance()
+      @vendor_account_matcher = VendorAccountMatcher.new
     end
 
     def title_caps(str)
@@ -46,7 +46,7 @@ module CSVToLedger
 
         menu.choice :add do |c|
           new_acct = prompt_for_new_account(transaction)
-          account << vendor_account_matcher.add_vendor_account(transaction.description, account)
+          account << vendor_account_matcher.add_vendor_account(transaction.description, new_acct)
         end
 
         vendor_account_matcher.accounts.each do |a|
@@ -67,13 +67,13 @@ module CSVToLedger
           t.description = filter_description(row[:transaction_details])
           t.funds_out = row[:funds_out]
           t.funds_in = row[:funds_in]
-          t.account = vendor_account_matcher.match(t) || prompt_for_account(t)
+          t.account = vendor_account_matcher.match(t.description) || prompt_for_account(t)
         end
       end
 
       output
     end
   end
-  c = Conversion.new(ARGF.path)
+  c = Conversion.new(ARGF.path || ARGV[0])
   c.run
 end
