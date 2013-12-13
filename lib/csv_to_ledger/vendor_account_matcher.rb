@@ -25,7 +25,7 @@ module CSVToLedger
       fetch_accounts.each do |a|
         accts << a[:account]
       end
-      accts.uniq
+      accts.uniq.sort
     end
 
     private
