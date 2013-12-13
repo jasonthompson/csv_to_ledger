@@ -1,9 +1,9 @@
 require 'sequel'
 
 module CSVToLedger
-  DB = Sequel.connect('sqlite://db/development')
-
   class VendorAccountMatcher
+    DB = Sequel.connect('sqlite://db/development')
+
     def match(vendor)
       acct = nil
       unless fetch_vendor(vendor).empty?

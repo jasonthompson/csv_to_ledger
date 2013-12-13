@@ -75,5 +75,5 @@ module CSVToLedger
     end
   end
   c = Conversion.new(ARGF.path || ARGV[0])
-  c.run
+  puts c.run
 end

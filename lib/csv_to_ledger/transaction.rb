@@ -27,10 +27,10 @@ module CSVToLedger
       "#{date} #{description}\n" +
       if expense?
         "\t Expense:#{account}: \t #{funds_out}\n"+
-          "\t Liabilities:Chequing"
+          "\t Assets:Chequing\n"
       else
-        "\t Asset:Chequing: \t #{funds_in}\n"+
-          "\t Income:PayCheque: "
+        "\t Asset:Chequing:\n"+
+          "\t Income:#{account}: #{funds_in}\n"
       end
     end
 
