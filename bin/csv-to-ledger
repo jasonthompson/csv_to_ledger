@@ -1,11 +1,7 @@
 #!/usr/bin/env ruby
 require 'csv_to_ledger'
 
-require 'csv'
-require 'pry'
-
 module CSVToLedger
 
-  c = CLI.new(ARGF.path || ARGV[0])
-  puts c.run
+  CLI.new(ARGF.path || ARGV[0]).run
 end
